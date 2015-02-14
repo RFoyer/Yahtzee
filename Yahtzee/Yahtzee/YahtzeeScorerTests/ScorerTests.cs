@@ -216,5 +216,75 @@ Chance: The player gets the sum of all dice, no matter what they read.
             //assert
             Assert.AreEqual(6, actual);
         }
+        [TestMethod]
+        public void Score__WhenRollIs11122_andCategoryThreeOfAKind_Returns7()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 1, 1, 2, 2 };
+            var category = YahtzeeCategory.ThreeOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(7, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs22211_andCategoryThreeOfAKind_Returns8()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 2, 2, 2, 1, 1 };
+            var category = YahtzeeCategory.ThreeOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(8, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs33334_andCategoryThreeOfAKind_Returns16()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 3, 3, 3, 3, 4 };
+            var category = YahtzeeCategory.ThreeOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(16, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs66666_andCategoryThreeOfAKind_Returns30()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 6, 6, 6, 6, 6 };
+            var category = YahtzeeCategory.ThreeOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(30, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs12345_andCategoryThreeOfAKind_Returns0()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 2, 3, 4, 5 };
+            var category = YahtzeeCategory.ThreeOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(0, actual);
+        }
     }
 }

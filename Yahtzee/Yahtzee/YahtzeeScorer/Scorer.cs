@@ -20,7 +20,31 @@ namespace YahtzeeScorer
                     score += (int)category;
                 }
             }
-            
+
+            if (category == YahtzeeCategory.ThreeOfAKind)
+            {
+                var numberCheck = 1;
+                for (int i = 0; i <= 5; i++)
+                {
+                    var numberRepeats = 0;
+                    for (int j = 0; j <= 4; j++)
+                    {
+                        var currentNumber = roll[j];
+                        if (currentNumber == numberCheck)
+                        {
+                            numberRepeats++;
+                        }
+                        if (numberRepeats >= 3 && j == 4)
+                        {
+                            score = roll.Sum();
+                        }
+                    }
+                    numberCheck++;
+                }
+
+            }
+
+
 
             return score;
         }
