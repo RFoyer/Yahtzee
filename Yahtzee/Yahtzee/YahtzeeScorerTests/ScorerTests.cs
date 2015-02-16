@@ -7,6 +7,7 @@ namespace YahtzeeScorerTests
 {
 
     /*
+     Note: I did not use the following instructions, which does not represent the standard Yahtzee scoring system (at least not as I know it).
 
 Ones, Twos, Threes, Fours, Fives, Sixes: The player scores the sum of the dice that reads one, two, three, four, five or six, respectively. For example, 1, 1, 2, 4, 4 placed on "fours" gives 8 points.
 Pair: The player scores the sum of the two highest matching dice. For example, 3, 3, 3, 4, 4 placed on "pair" gives 8.
@@ -286,5 +287,282 @@ Chance: The player gets the sum of all dice, no matter what they read.
             //assert
             Assert.AreEqual(0, actual);
         }
+        [TestMethod]
+        public void Score__WhenRollIs11112_andCategoryFourOfAKind_Returns6()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 1, 1, 1, 2 };
+            var category = YahtzeeCategory.FourOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(6, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs11111_andCategoryFourOfAKind_Returns5()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 1, 1, 1, 1 };
+            var category = YahtzeeCategory.FourOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(5, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs11122_andCategoryFourOfAKind_Returns0()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 1, 1, 2, 2 };
+            var category = YahtzeeCategory.FourOfAKind;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(0, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs11122_andCategoryFullHouse_Returns25()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 1, 1, 2, 2 };
+            var category = YahtzeeCategory.FullHouse;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(25, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs11112_andCategoryFullHouse_Returns0()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 1, 1, 1, 2 };
+            var category = YahtzeeCategory.FullHouse;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(0, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs12345_andCategorySmallStraight_Returns30()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 2, 3, 4, 5 };
+            var category = YahtzeeCategory.SmallStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(30, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs12346_andCategorySmallStraight_Returns30()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 2, 3, 4, 6 };
+            var category = YahtzeeCategory.SmallStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(30, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs12356_andCategorySmallStraight_Returns0()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 2, 3, 5, 6 };
+            var category = YahtzeeCategory.SmallStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(0, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs11234_andCategorySmallStraight_Returns30()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 1, 2, 3, 4 };
+            var category = YahtzeeCategory.SmallStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(30, actual);
+        }
+        [TestMethod]
+        public void Score__WhenRollIs54123_andCategorySmallStraight_Returns30()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 5, 4, 1, 2, 3 };
+            var category = YahtzeeCategory.SmallStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(30, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs54423_andCategorySmallStraight_Returns30()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 5, 4, 4, 2, 3 };
+            var category = YahtzeeCategory.SmallStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(30, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs13456_andCategorySmallStraight_Returns30()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 3, 4, 5, 6 };
+            var category = YahtzeeCategory.SmallStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(30, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs12354_andCategoryLargeStraight_Returns40()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 2, 3, 5, 4 };
+            var category = YahtzeeCategory.LargeStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(40, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs65432_andCategoryLargeStraight_Returns40()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 6, 5, 4, 3, 2 };
+            var category = YahtzeeCategory.LargeStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(40, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs12346_andCategoryLargeStraight_Returns0()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 1, 2, 3, 4, 6 };
+            var category = YahtzeeCategory.LargeStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(0, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs22222_andCategoryLargeStraight_Returns0()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 2, 2, 2, 2, 2 };
+            var category = YahtzeeCategory.LargeStraight;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(0, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs22222_andCategoryYahtzee_Returns50()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 2, 2, 2, 2, 2 };
+            var category = YahtzeeCategory.Yahtzee;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(50, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs22223_andCategoryYahtzee_Returns0()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 2, 2, 2, 2, 3 };
+            var category = YahtzeeCategory.Yahtzee;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(0, actual);
+        }
+
+        [TestMethod]
+        public void Score__WhenRollIs55555_andCategoryChance_Returns25()
+        {
+            // arrange
+            var scorer = new Scorer();
+            var roll = new List<int> { 5, 5, 5, 5, 5 };
+            var category = YahtzeeCategory.Chance;
+
+            //act
+            var actual = scorer.Score(roll, category);
+
+            //assert
+            Assert.AreEqual(25, actual);
+        }
+
+
     }
 }

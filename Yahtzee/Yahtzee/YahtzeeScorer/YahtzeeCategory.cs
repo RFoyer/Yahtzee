@@ -14,6 +14,12 @@ namespace YahtzeeScorer
         Fours = 4,
         Fives = 5,
         Sixes = 6,
-        ThreeOfAKind
+        ThreeOfAKind,
+        FourOfAKind,
+        FullHouse,
+        SmallStraight,
+        LargeStraight,
+        Yahtzee,
+        Chance
     }
 }

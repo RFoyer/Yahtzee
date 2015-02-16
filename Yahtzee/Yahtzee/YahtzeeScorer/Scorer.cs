@@ -12,39 +12,278 @@ namespace YahtzeeScorer
         {
             var score = 0;
 
-            for (var i = 0; i <= 4; i++)
+            // added "if" block here for optimization. else the loop always executes
+            // regardless of what category is passed into the Score method.
+
+            if ((int)category <= 6)
             {
-                var currentNumber = roll[i];
-                if (currentNumber == (int)category)
+                for (var i = 0; i <= 4; i++)
                 {
-                    score += (int)category;
+                    var currentNumber = roll[i];
+                    if (currentNumber == (int)category)
+                    {
+                        score += (int)category;
+                    }
+                } 
+            }
+
+            // Charlie's Idea: (breaks added for optimization; could add "return score"
+            // instead of break (right?) but there are possible bonus points in Yahtzee)
+
+            /*
+            if (category == YahtzeeCategory.ThreeOfAKind)
+            {
+                var distinctNumbersRolled = roll.Distinct();
+
+                if (distinctNumbersRolled.Count() <= 3)
+                {
+                    foreach (var number in distinctNumbersRolled)
+                    {
+                        var howManyOfThisNumberinRoll = roll.Count(r => r == number);
+                        if (howManyOfThisNumberinRoll >= 3)
+                        {
+                            score = roll.Sum();
+                            break;
+                        }
+                    }
+                }
+
+            }
+            */
+
+            // Extension of Charlie's for FourOfAKind:
+
+            /*
+            if (category == YahtzeeCategory.FourOfAKind)
+            {
+                var distinctNumbersRolled = roll.Distinct();
+
+                if (distinctNumbersRolled.Count() <= 2)
+                {
+                    foreach (var number in distinctNumbersRolled)
+                    {
+                        var howManyOfThisNumberinRoll = roll.Count(r => r == number);
+                        if (howManyOfThisNumberinRoll >= 4)
+                        {
+                            score = roll.Sum();
+                            break;
+                        }
+                    }
                 }
             }
+            */
+
+            // Extension of Charlie's idea for FullHouse:
+
+            if (category == YahtzeeCategory.FullHouse)
+            {
+                var distinctNumbersRolled = roll.Distinct();
+
+                if (distinctNumbersRolled.Count() == 2)
+                {
+                    foreach (var number in distinctNumbersRolled)
+                    {
+                        var howManyOfThisNumberinRoll = roll.Count(r => r == number);
+                        if (howManyOfThisNumberinRoll == 3)
+                        {
+                            score = 25;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // My idea for three/four of a kind:
 
             if (category == YahtzeeCategory.ThreeOfAKind)
             {
-                var numberCheck = 1;
-                for (int i = 0; i <= 5; i++)
+                var howManyOfThisNumberinRoll = roll.GroupBy(r => r);
+                foreach (var number in howManyOfThisNumberinRoll)
                 {
-                    var numberRepeats = 0;
-                    for (int j = 0; j <= 4; j++)
+                    if (number.Count() >= 3)
                     {
-                        var currentNumber = roll[j];
-                        if (currentNumber == numberCheck)
-                        {
-                            numberRepeats++;
-                        }
-                        if (numberRepeats >= 3 && j == 4)
-                        {
-                            score = roll.Sum();
-                        }
+                        score = roll.Sum();
+                        break;
                     }
-                    numberCheck++;
+                }
+
+            }
+
+            if (category == YahtzeeCategory.FourOfAKind)
+            {
+                var howManyOfThisNumberinRoll = roll.GroupBy(r => r);
+                foreach (var number in howManyOfThisNumberinRoll)
+                {
+                    if (number.Count() >= 4)
+                    {
+                        score = roll.Sum();
+                        break;
+                    }
+                }
+
+            }
+
+            // My first idea for small/large straight.
+
+            if (category == YahtzeeCategory.SmallStraight)
+            {
+                var currentNumberInARow = 1;
+                var currentDieIndex = 0;
+                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
+
+                // the following "if" block is an optimization.
+
+                if (rollPlacedInOrder.Count() >= 4)
+                {
+                    foreach (var number in rollPlacedInOrder)
+                    {
+                        // first "if" block prevents out-of-range exception.
+                        // The "if" of the "else if" is an optimization, as are the breaks.
+
+                        if (currentDieIndex != rollPlacedInOrder.Count() - 1)
+                        {
+                            if (rollPlacedInOrder.ElementAt(currentDieIndex + 1) - rollPlacedInOrder.ElementAt(currentDieIndex) == 1)
+                            {
+                                currentNumberInARow++;
+                                if (currentNumberInARow == 4)
+                                {
+                                    score = 30;
+                                    break;
+                                }
+                            }
+                            else if (currentDieIndex == 0 && rollPlacedInOrder.Count() == 5)
+                            {
+                                currentNumberInARow = 1;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            currentDieIndex++;
+                        }
+
+                    } 
+                }
+
+            }
+
+            if (category == YahtzeeCategory.LargeStraight)
+            {
+                var currentNumberInARow = 1;
+                var currentDieIndex = 0;
+                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
+
+                // the following "if" block is an optimization.
+
+                if (rollPlacedInOrder.Count() == 5)
+                {
+                    foreach (var number in rollPlacedInOrder)
+                    {
+                        // first "if" block prevents out-of-range exception.
+
+                        if (currentDieIndex != rollPlacedInOrder.Count() - 1)
+                        {
+                            if (rollPlacedInOrder.ElementAt(currentDieIndex + 1) - rollPlacedInOrder.ElementAt(currentDieIndex) == 1)
+                            {
+                                currentNumberInARow++;
+                                if (currentNumberInARow == 5)
+                                {
+                                    score = 40;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                            currentDieIndex++;
+                        }
+
+                    } 
                 }
 
             }
 
 
+            // Second idea. I don't like the following, but it does seem to be 
+            // a simpler (but is it less expensive?) way of doing small/large straight.
+
+            /*
+            if (category == YahtzeeCategory.SmallStraight)
+            {
+                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
+                
+                if (rollPlacedInOrder.Count() >= 4)
+                {
+                    foreach (var number in rollPlacedInOrder)
+                    {
+                        if (rollPlacedInOrder.Contains(1)
+                            && rollPlacedInOrder.Contains(2)
+                            && rollPlacedInOrder.Contains(3)
+                            && rollPlacedInOrder.Contains(4))
+                        {
+                            score = 30;
+                        }
+                        if (rollPlacedInOrder.Contains(2)
+                            && rollPlacedInOrder.Contains(3)
+                            && rollPlacedInOrder.Contains(4)
+                            && rollPlacedInOrder.Contains(5))
+                        {
+                            score = 30;
+                        }
+                        if (rollPlacedInOrder.Contains(3)
+                            && rollPlacedInOrder.Contains(4)
+                            && rollPlacedInOrder.Contains(5)
+                            && rollPlacedInOrder.Contains(6))
+                        {
+                            score = 30;
+                        }
+                    
+                    }
+                }
+            }
+
+            if (category == YahtzeeCategory.LargeStraight)
+            {
+                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
+                
+                if(rollPlacedInOrder.Count() == 5)
+                {
+                    foreach (var number in rollPlacedInOrder)
+                    {
+                        if (rollPlacedInOrder.Contains(1)
+                            && rollPlacedInOrder.Contains(2)
+                            && rollPlacedInOrder.Contains(3)
+                            && rollPlacedInOrder.Contains(4)
+                            && rollPlacedInOrder.Contains(5))
+                        {
+                            score = 40;
+                        }
+                        if (rollPlacedInOrder.Contains(2)
+                            && rollPlacedInOrder.Contains(3)
+                            && rollPlacedInOrder.Contains(4)
+                            && rollPlacedInOrder.Contains(5)
+                            && rollPlacedInOrder.Contains(6))
+                        {
+                            score = 40;
+                        }
+                    }
+                }
+            }
+            */
+
+            if (category == YahtzeeCategory.Yahtzee)
+            {
+                var checkForYahtzee = roll.Distinct();
+                if (checkForYahtzee.Count() == 1)
+                {
+                    score = 50;
+                }
+            }
+
+            if (category == YahtzeeCategory.Chance)
+            {
+                score = roll.Sum();
+            }
 
             return score;
         }
