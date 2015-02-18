@@ -138,7 +138,7 @@ namespace YahtzeeScorer
                     foreach (var number in rollPlacedInOrder)
                     {
                         // first "if" block prevents out-of-range exception.
-                        // The "if" of the "else if" is an optimization, as are the breaks.
+                        // The condition of the "else if" allows one more iteration after index 0 in case roll is 13456.
 
                         if (currentDieIndex != rollPlacedInOrder.Count() - 1)
                         {
@@ -151,12 +151,8 @@ namespace YahtzeeScorer
                                     break;
                                 }
                             }
-                            else if (currentDieIndex == 0 && rollPlacedInOrder.Count() == 5)
-                            {
-                                currentNumberInARow = 1;
-                            }
-                            else
-                            {
+                            else if (currentDieIndex > 0)
+                            { 
                                 break;
                             }
                             currentDieIndex++;
