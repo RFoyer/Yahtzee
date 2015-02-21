@@ -27,54 +27,6 @@ namespace YahtzeeScorer
                 }
             }
 
-            // Charlie's Idea: (breaks added for optimization; could add "return score"
-            // instead of break (right?) but there are possible bonus points in Yahtzee)
-
-            /*
-            if (category == YahtzeeCategory.ThreeOfAKind)
-            {
-                var distinctNumbersRolled = roll.Distinct();
-
-                if (distinctNumbersRolled.Count() <= 3)
-                {
-                    foreach (var number in distinctNumbersRolled)
-                    {
-                        var howManyOfThisNumberinRoll = roll.Count(r => r == number);
-                        if (howManyOfThisNumberinRoll >= 3)
-                        {
-                            score = roll.Sum();
-                            break;
-                        }
-                    }
-                }
-
-            }
-            */
-
-            // Extension of Charlie's for FourOfAKind:
-
-            /*
-            if (category == YahtzeeCategory.FourOfAKind)
-            {
-                var distinctNumbersRolled = roll.Distinct();
-
-                if (distinctNumbersRolled.Count() <= 2)
-                {
-                    foreach (var number in distinctNumbersRolled)
-                    {
-                        var howManyOfThisNumberinRoll = roll.Count(r => r == number);
-                        if (howManyOfThisNumberinRoll >= 4)
-                        {
-                            score = roll.Sum();
-                            break;
-                        }
-                    }
-                }
-            }
-            */
-
-            // Extension of Charlie's idea for FullHouse:
-
             if (category == YahtzeeCategory.FullHouse)
             {
                 var distinctNumbersRolled = roll.Distinct();
@@ -92,8 +44,6 @@ namespace YahtzeeScorer
                     }
                 }
             }
-
-            // My idea for three/four of a kind:
 
             if (category == YahtzeeCategory.ThreeOfAKind)
             {
@@ -156,75 +106,7 @@ namespace YahtzeeScorer
                 }
 
             }
-
-
-            // Second idea. I don't like the following, but it does seem to be 
-            // a simpler (but is it less expensive?) way of doing small/large straight.
-
-            /*
-            if (category == YahtzeeCategory.SmallStraight)
-            {
-                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
-                
-                if (rollPlacedInOrder.Count() >= 4)
-                {
-                    foreach (var number in rollPlacedInOrder)
-                    {
-                        if (rollPlacedInOrder.Contains(1)
-                            && rollPlacedInOrder.Contains(2)
-                            && rollPlacedInOrder.Contains(3)
-                            && rollPlacedInOrder.Contains(4))
-                        {
-                            score = 30;
-                        }
-                        if (rollPlacedInOrder.Contains(2)
-                            && rollPlacedInOrder.Contains(3)
-                            && rollPlacedInOrder.Contains(4)
-                            && rollPlacedInOrder.Contains(5))
-                        {
-                            score = 30;
-                        }
-                        if (rollPlacedInOrder.Contains(3)
-                            && rollPlacedInOrder.Contains(4)
-                            && rollPlacedInOrder.Contains(5)
-                            && rollPlacedInOrder.Contains(6))
-                        {
-                            score = 30;
-                        }
-                    
-                    }
-                }
-            }
-
-            if (category == YahtzeeCategory.LargeStraight)
-            {
-                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
-                
-                if(rollPlacedInOrder.Count() == 5)
-                {
-                    foreach (var number in rollPlacedInOrder)
-                    {
-                        if (rollPlacedInOrder.Contains(1)
-                            && rollPlacedInOrder.Contains(2)
-                            && rollPlacedInOrder.Contains(3)
-                            && rollPlacedInOrder.Contains(4)
-                            && rollPlacedInOrder.Contains(5))
-                        {
-                            score = 40;
-                        }
-                        if (rollPlacedInOrder.Contains(2)
-                            && rollPlacedInOrder.Contains(3)
-                            && rollPlacedInOrder.Contains(4)
-                            && rollPlacedInOrder.Contains(5)
-                            && rollPlacedInOrder.Contains(6))
-                        {
-                            score = 40;
-                        }
-                    }
-                }
-            }
-            */
-
+            
             if (category == YahtzeeCategory.Yahtzee)
             {
                 var checkForYahtzee = roll.Distinct();
