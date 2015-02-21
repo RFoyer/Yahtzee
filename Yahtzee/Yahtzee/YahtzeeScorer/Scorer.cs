@@ -24,7 +24,7 @@ namespace YahtzeeScorer
                     {
                         score += (int)category;
                     }
-                } 
+                }
             }
 
             // Charlie's Idea: (breaks added for optimization; could add "return score"
@@ -152,49 +152,25 @@ namespace YahtzeeScorer
                                 }
                             }
                             else if (currentDieIndex > 0)
-                            { 
+                            {
                                 break;
                             }
                             currentDieIndex++;
                         }
 
-                    } 
+                    }
                 }
 
             }
 
             if (category == YahtzeeCategory.LargeStraight)
             {
-                var currentNumberInARow = 1;
-                var currentDieIndex = 0;
-                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
+                var distinctRoll = roll.Distinct();
 
-                // the following "if" block is an optimization.
-
-                if (rollPlacedInOrder.Count() == 5)
+                if (distinctRoll.Count() == 5 &&
+                    !(distinctRoll.Contains(1) && distinctRoll.Contains(6)))
                 {
-                    foreach (var number in rollPlacedInOrder)
-                    {
-                        // first "if" block prevents out-of-range exception.
-
-                        if (currentDieIndex != rollPlacedInOrder.Count() - 1)
-                        {
-                            if (rollPlacedInOrder.ElementAt(currentDieIndex + 1) - rollPlacedInOrder.ElementAt(currentDieIndex) == 1)
-                            {
-                                currentNumberInARow++;
-                                if (currentNumberInARow == 5)
-                                {
-                                    score = 40;
-                                }
-                            }
-                            else
-                            {
-                                break;
-                            }
-                            currentDieIndex++;
-                        }
-
-                    } 
+                    score = 40;
                 }
 
             }
