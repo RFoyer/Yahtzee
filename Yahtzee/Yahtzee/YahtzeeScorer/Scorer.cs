@@ -12,10 +12,7 @@ namespace YahtzeeScorer
         {
             var score = 0;
 
-            // added "if" block here for optimization. else the loop always executes
-            // regardless of what category is passed into the Score method.
-
-            if ((int)category <= 6)
+            if (IsNumberCategory(category))
             {
                 for (var i = 0; i <= 4; i++)
                 {
@@ -122,6 +119,11 @@ namespace YahtzeeScorer
             }
 
             return score;
+        }
+
+        private static bool IsNumberCategory(YahtzeeCategory category)
+        {
+            return (int)category <= 6;
         }
     }
 }
