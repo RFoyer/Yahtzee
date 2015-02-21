@@ -14,16 +14,17 @@ namespace YahtzeeScorer
 
             if (IsNumberCategory(category))
             {
-                for (var i = 0; i <= 4; i++)
+                var numberBeingChecked = (int)category;
+                var distinctNumbersRolled = roll.Distinct();
+                foreach (var number in distinctNumbersRolled)
                 {
-                    var currentNumber = roll[i];
-                    if (currentNumber == (int)category)
+                    if (number == numberBeingChecked)
                     {
-                        score += (int)category;
+                        score = roll.Count(r => r == number) * numberBeingChecked;
                     }
-                }
+                }    
             }
-
+                            
             if (category == YahtzeeCategory.FullHouse)
             {
                 var distinctNumbersRolled = roll.Distinct();
