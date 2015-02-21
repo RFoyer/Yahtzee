@@ -71,24 +71,23 @@ namespace YahtzeeScorer
 
             }
 
-
             if (category == YahtzeeCategory.SmallStraight)
             {
-                var distinctOrderedRoll = roll.Distinct().ToList();
-                distinctOrderedRoll.Sort();
+                var distinctRoll = roll.Distinct();
 
-                if (distinctOrderedRoll.Count() >= 4)
+                if (distinctRoll.Count() >= 4)
                 {
-                    for (var i = 0; i <= 1; i++)
-                    {
-                        if (distinctOrderedRoll[i] + 1 == distinctOrderedRoll[i + 1] &&
-                            distinctOrderedRoll[i + 1] + 1 == distinctOrderedRoll[i + 2] &&
-                            distinctOrderedRoll[i + 2] + 1 == distinctOrderedRoll[i + 3])
+                        if (roll.Contains(3) && roll.Contains(4))
                         {
-                            score = 30;
-                            break;
+                            if (roll.Contains(2) && (roll.Contains(1) || roll.Contains(5)))
+                            {
+                                score = 30;
+                            }
+                            else if (roll.Contains(5) && roll.Contains(6))
+                            {
+                                score = 30;
+                            }
                         }
-                    }
                 }
 
             }
