@@ -123,41 +123,23 @@ namespace YahtzeeScorer
 
             }
 
-            // My first idea for small/large straight.
 
             if (category == YahtzeeCategory.SmallStraight)
             {
-                var currentNumberInARow = 1;
-                var currentDieIndex = 0;
-                var rollPlacedInOrder = roll.Distinct().OrderBy(r => r);
+                var distinctOrderedRoll = roll.Distinct().ToList();
+                distinctOrderedRoll.Sort();
 
-                // the following "if" block is an optimization.
-
-                if (rollPlacedInOrder.Count() >= 4)
+                if (distinctOrderedRoll.Count() >= 4)
                 {
-                    foreach (var number in rollPlacedInOrder)
+                    for (var i = 0; i <= 1; i++)
                     {
-                        // first "if" block prevents out-of-range exception.
-                        // The condition of the "else if" allows one more iteration after index 0 in case roll is 13456.
-
-                        if (currentDieIndex != rollPlacedInOrder.Count() - 1)
+                        if (distinctOrderedRoll[i] + 1 == distinctOrderedRoll[i + 1] &&
+                            distinctOrderedRoll[i + 1] + 1 == distinctOrderedRoll[i + 2] &&
+                            distinctOrderedRoll[i + 2] + 1 == distinctOrderedRoll[i + 3])
                         {
-                            if (rollPlacedInOrder.ElementAt(currentDieIndex + 1) - rollPlacedInOrder.ElementAt(currentDieIndex) == 1)
-                            {
-                                currentNumberInARow++;
-                                if (currentNumberInARow == 4)
-                                {
-                                    score = 30;
-                                    break;
-                                }
-                            }
-                            else if (currentDieIndex > 0)
-                            {
-                                break;
-                            }
-                            currentDieIndex++;
+                            score = 30;
+                            break;
                         }
-
                     }
                 }
 
