@@ -12,19 +12,13 @@ namespace YahtzeeScorer
         {
             var score = 0;
 
-            if (IsNumberCategory(category))
+            if (IsNumericCategory(category))
             {
-                var numberBeingChecked = (int)category;
-                var distinctNumbersRolled = roll.Distinct();
-                foreach (var number in distinctNumbersRolled)
-                {
-                    if (number == numberBeingChecked)
-                    {
-                        score = roll.Count(r => r == number) * numberBeingChecked;
-                    }
-                }    
+                var categoryValue = (int)category;
+                var howManyOfThisCategory = roll.Count(num => num == categoryValue);
+                score = howManyOfThisCategory * categoryValue;
             }
-                            
+
             if (category == YahtzeeCategory.FullHouse)
             {
                 var distinctNumbersRolled = roll.Distinct();
@@ -45,10 +39,11 @@ namespace YahtzeeScorer
 
             if (category == YahtzeeCategory.ThreeOfAKind)
             {
-                var howManyOfThisNumberinRoll = roll.GroupBy(r => r);
-                foreach (var number in howManyOfThisNumberinRoll)
+                var numberGroupsInRoll = roll.GroupBy(r => r);
+
+                foreach (var grouping in numberGroupsInRoll)
                 {
-                    if (number.Count() >= 3)
+                    if (grouping.Count() >= 3)
                     {
                         score = roll.Sum();
                         break;
@@ -77,17 +72,17 @@ namespace YahtzeeScorer
 
                 if (distinctRoll.Count() >= 4)
                 {
-                        if (roll.Contains(3) && roll.Contains(4))
+                    if (roll.Contains(3) && roll.Contains(4))
+                    {
+                        if (roll.Contains(2) && (roll.Contains(1) || roll.Contains(5)))
                         {
-                            if (roll.Contains(2) && (roll.Contains(1) || roll.Contains(5)))
-                            {
-                                score = 30;
-                            }
-                            else if (roll.Contains(5) && roll.Contains(6))
-                            {
-                                score = 30;
-                            }
+                            score = 30;
                         }
+                        else if (roll.Contains(5) && roll.Contains(6))
+                        {
+                            score = 30;
+                        }
+                    }
                 }
 
             }
@@ -103,7 +98,7 @@ namespace YahtzeeScorer
                 }
 
             }
-            
+
             if (category == YahtzeeCategory.Yahtzee)
             {
                 var checkForYahtzee = roll.Distinct();
@@ -121,7 +116,7 @@ namespace YahtzeeScorer
             return score;
         }
 
-        private static bool IsNumberCategory(YahtzeeCategory category)
+        private bool IsNumericCategory(YahtzeeCategory category)
         {
             return (int)category <= 6;
         }
