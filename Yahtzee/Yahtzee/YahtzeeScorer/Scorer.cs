@@ -27,7 +27,7 @@ namespace YahtzeeScorer
             }
 
             if (_categoryChecker.IsFixedScoreCategory(category)
-                && _categoryChecker.IsValidCategory(roll, category))
+                && _categoryChecker.IsValidRollForCategory(roll, category))
             {
                 var categoryValue = (int)category;
                 score = categoryValue;
@@ -38,7 +38,7 @@ namespace YahtzeeScorer
                 || category == YahtzeeCategory.FourOfAKind
                 || category == YahtzeeCategory.Chance)
                 &&
-                _categoryChecker.IsValidCategory(roll, category)
+                _categoryChecker.IsValidRollForCategory(roll, category)
                 )
             {
                 score = roll.Sum();

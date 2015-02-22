@@ -8,7 +8,7 @@ namespace YahtzeeScorer
 {
     public class CategoryChecker
     {
-        public bool IsValidCategory(List<int> roll, YahtzeeCategory category)
+        public bool IsValidRollForCategory(List<int> roll, YahtzeeCategory category)
         {
             if (category == YahtzeeCategory.FullHouse)
             {
