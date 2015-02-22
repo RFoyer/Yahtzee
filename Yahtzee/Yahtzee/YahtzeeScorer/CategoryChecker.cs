@@ -104,5 +104,13 @@ namespace YahtzeeScorer
         {
             return (int)category <= 6;
         }
+
+        internal bool IsFixedScoreCategory(YahtzeeCategory category)
+        {
+            return category == YahtzeeCategory.FullHouse
+                || category == YahtzeeCategory.SmallStraight
+                || category == YahtzeeCategory.LargeStraight
+                || category == YahtzeeCategory.Yahtzee;
+        }
     }
 }

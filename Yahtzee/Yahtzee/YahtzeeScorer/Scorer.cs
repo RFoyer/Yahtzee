@@ -26,10 +26,11 @@ namespace YahtzeeScorer
                 score = howManyOfThisCategory * categoryValue;
             }
 
-            if (category == YahtzeeCategory.FullHouse
+            if (_categoryChecker.IsFixedScoreCategory(category)
                 && _categoryChecker.IsValidCategory(roll, category))
             {
-                score = 25;
+                var categoryValue = (int)category;
+                score = categoryValue;
             }
 
             if (
@@ -41,25 +42,6 @@ namespace YahtzeeScorer
                 )
             {
                 score = roll.Sum();
-            }
-
-
-            if (category == YahtzeeCategory.SmallStraight
-                && _categoryChecker.IsValidCategory(roll, category))
-            {
-                score = 30;
-            }
-
-            if (category == YahtzeeCategory.LargeStraight
-                && _categoryChecker.IsValidCategory(roll, category))
-            {
-                score = 40;
-            }
-
-            if (category == YahtzeeCategory.Yahtzee
-                && _categoryChecker.IsValidCategory(roll, category))
-            {
-                score = 50;
             }
 
             return score;
