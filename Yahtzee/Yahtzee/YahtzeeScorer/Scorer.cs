@@ -33,10 +33,7 @@ namespace YahtzeeScorer
                 score = categoryValue;
             }
 
-            if (
-                (category == YahtzeeCategory.ThreeOfAKind
-                || category == YahtzeeCategory.FourOfAKind
-                || category == YahtzeeCategory.Chance)
+            if (_categoryChecker.IsSummedUpCategory(category)
                 &&
                 _categoryChecker.IsValidRollForCategory(roll, category)
                 )

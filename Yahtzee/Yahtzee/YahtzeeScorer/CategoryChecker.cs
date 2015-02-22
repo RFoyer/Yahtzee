@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace YahtzeeScorer
 {
-    public class CategoryChecker
+    internal class CategoryChecker
     {
-        public bool IsValidRollForCategory(List<int> roll, YahtzeeCategory category)
+        internal bool IsValidRollForCategory(List<int> roll, YahtzeeCategory category)
         {
             if (category == YahtzeeCategory.FullHouse)
             {
@@ -100,7 +100,7 @@ namespace YahtzeeScorer
             return false;
         }
 
-        public bool IsNumericCategory(YahtzeeCategory category)
+        internal bool IsNumericCategory(YahtzeeCategory category)
         {
             return (int)category <= 6;
         }
@@ -111,6 +111,13 @@ namespace YahtzeeScorer
                 || category == YahtzeeCategory.SmallStraight
                 || category == YahtzeeCategory.LargeStraight
                 || category == YahtzeeCategory.Yahtzee;
+        }
+
+        internal bool IsSummedUpCategory(YahtzeeCategory category)
+        {
+            return (category == YahtzeeCategory.ThreeOfAKind
+                || category == YahtzeeCategory.FourOfAKind
+                || category == YahtzeeCategory.Chance);
         }
     }
 }
