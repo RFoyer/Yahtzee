@@ -16,10 +16,10 @@ namespace YahtzeeScorer
         Sixes = 6,
         ThreeOfAKind,
         FourOfAKind,
-        FullHouse,
-        SmallStraight,
-        LargeStraight,
-        Yahtzee,
+        FullHouse = 25,
+        SmallStraight = 30,
+        LargeStraight = 40,
+        Yahtzee = 50,
         Chance
     }
 }
